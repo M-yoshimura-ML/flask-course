@@ -19,6 +19,11 @@ def user_profile(name):
     return render_template('user/profile.html', name=name)
 
 
+@app.route('/add-user')
+def add_user():
+    return render_template('user/add_user.html')
+
+
 @app.route("/internal-error-test")
 def internal_error_test():
     try:
