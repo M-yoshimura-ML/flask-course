@@ -14,9 +14,9 @@ def hello():
     return render_template('hello.html', name=name, posts=posts)
 
 
-@app.route('/hello/<name>')
-def hello_world(name):
-    return "Hello %s" %name
+@app.route('/profile/<name>')
+def user_profile(name):
+    return render_template('user/profile.html', name=name)
 
 
 if __name__ == "__main__":
