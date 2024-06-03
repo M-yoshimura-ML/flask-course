@@ -2,6 +2,7 @@
 {% block title %}Hello!{% endblock %}
 {% block content %}
     <h1>Hello!!</h1>
+    <input type="button" onclick="sayHello()" value="say hello" />
     {% if name %}
         <p>{{ name }}</p>
     {% endif %}
@@ -11,4 +12,5 @@
             {{ post.title }} - {{ post.author }} <br>
         {% endfor %}
     {% endif %}
+    <script type="text/javascript" src="{{ url_for('static', filename='js/hello.js') }}"></script>
 {% endblock %}
