@@ -1,6 +1,7 @@
-from flask import Flask, render_template, abort, Response, request
+from flask import Flask, render_template, abort, Response, request, redirect, url_for, session
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = "YOUR_SECRET_KEY"
 
 
 @app.route('/')
@@ -15,17 +16,20 @@ def hello():
 
 @app.route('/profile/<name>')
 def user_profile(name):
+    if 'email' in session:
+        name = session.get('username')
     return render_template('user/profile.html', name=name)
 
 
 @app.route('/add-user', methods=['GET', 'POST'])
 def add_user():
     if request.method == 'POST':
-        form = request.form
-        print('form:', form)
         username = request.form.get('username')
-        print('username:', username)
-        return render_template('user/profile.html', name=username)
+        email = request.form.get('email')
+        session['username'] = username
+        session['email'] = email
+        # return render_template('user/profile.html', name=username)
+        return redirect(url_for('user_profile', name=username))
     return render_template('user/add_user.html')
 
 
