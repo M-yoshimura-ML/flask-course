@@ -1,5 +1,4 @@
-from flask import Flask, render_template, abort, Response
-
+from flask import Flask, render_template, abort, Response, request
 
 app = Flask(__name__)
 
@@ -19,8 +18,14 @@ def user_profile(name):
     return render_template('user/profile.html', name=name)
 
 
-@app.route('/add-user')
+@app.route('/add-user', methods=['GET', 'POST'])
 def add_user():
+    if request.method == 'POST':
+        form = request.form
+        print('form:', form)
+        username = request.form.get('username')
+        print('username:', username)
+        return render_template('user/profile.html', name=username)
     return render_template('user/add_user.html')
 
 
