@@ -3,18 +3,19 @@
 {% block content %}
     <h1>Add User</h1>
     <form method="POST" action="/add-user">
+      {{ form.csrf_token }}
       <div class="mb-3">
-        <label for="username" class="form-label">Username</label>
-        <input type="text" class="form-control" id="username" name="username">
+        {{ form.username.label(class="form-label") }}
+        {{ form.username(class="form-control") }}
       </div>
       <div class="mb-3">
-        <label for="email" class="form-label">Email address</label>
-        <input type="email" class="form-control" id="email" name="email">
+        {{ form.email.label(class="form-label") }}
+        {{ form.email(class="form-control") }}
       </div>
       <div class="mb-3">
-        <label for="password" class="form-label">Password</label>
-        <input type="password" class="form-control" id="password" name="password">
+        {{ form.password.label(class="form-label") }}
+        {{ form.password(class="form-control") }}
       </div>
-      <button type="submit" class="btn btn-primary">Submit</button>
+      {{ form.submit(class="btn btn-primary") }}
     </form>
 {% endblock %}

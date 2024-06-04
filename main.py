@@ -1,7 +1,11 @@
 from flask import Flask, render_template, abort, Response, request, redirect, url_for, session
+from flask_wtf import CSRFProtect
+
+from form.UserForm import AddUserForm
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "YOUR_SECRET_KEY"
+csrf = CSRFProtect(app)
 
 
 @app.route('/')
@@ -23,6 +27,7 @@ def user_profile(name):
 
 @app.route('/add-user', methods=['GET', 'POST'])
 def add_user():
+    form = AddUserForm()
     if request.method == 'POST':
         username = request.form.get('username')
         email = request.form.get('email')
@@ -30,7 +35,7 @@ def add_user():
         session['email'] = email
         # return render_template('user/profile.html', name=username)
         return redirect(url_for('user_profile', name=username))
-    return render_template('user/add_user.html')
+    return render_template('user/add_user.html', form=form)
 
 
 @app.route("/internal-error-test")
