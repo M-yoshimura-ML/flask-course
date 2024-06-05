@@ -1,11 +1,12 @@
 from flask import Flask, render_template, abort, Response, request, redirect, url_for, session, flash
 from flask_wtf import CSRFProtect
 
-from form.UserForm import AddUserForm
+from blueprints.user import user_bp
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "YOUR_SECRET_KEY"
 csrf = CSRFProtect(app)
+app.register_blueprint(user_bp)
 
 
 @app.route('/')
@@ -16,26 +17,6 @@ def hello():
         {'title': 'test2', 'author': 'john'}
     ]
     return render_template('hello.html', name=name, posts=posts)
-
-
-@app.route('/profile/<name>')
-def user_profile(name):
-    if 'email' in session:
-        name = session.get('username')
-    return render_template('user/profile.html', name=name)
-
-
-@app.route('/add-user', methods=['GET', 'POST'])
-def add_user():
-    form = AddUserForm()
-    if form.validate_on_submit():
-        username = form.username.data
-        email = form.email.data
-        session['username'] = username
-        session['email'] = email
-        flash("User is added successfully.")
-        return redirect(url_for('user_profile', name=username))
-    return render_template('user/add_user.html', form=form)
 
 
 @app.route("/internal-error-test")
