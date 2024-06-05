@@ -28,9 +28,11 @@ def user_profile(name):
 @app.route('/add-user', methods=['GET', 'POST'])
 def add_user():
     form = AddUserForm()
-    if request.method == 'POST':
-        username = request.form.get('username')
-        email = request.form.get('email')
+    if form.validate_on_submit():
+        # username = request.form.get('username')
+        username = form.username.data
+        # email = request.form.get('email')
+        email = form.email.data
         session['username'] = username
         session['email'] = email
         # return render_template('user/profile.html', name=username)
