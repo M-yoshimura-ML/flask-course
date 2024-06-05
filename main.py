@@ -1,4 +1,4 @@
-from flask import Flask, render_template, abort, Response, request, redirect, url_for, session
+from flask import Flask, render_template, abort, Response, request, redirect, url_for, session, flash
 from flask_wtf import CSRFProtect
 
 from form.UserForm import AddUserForm
@@ -29,13 +29,11 @@ def user_profile(name):
 def add_user():
     form = AddUserForm()
     if form.validate_on_submit():
-        # username = request.form.get('username')
         username = form.username.data
-        # email = request.form.get('email')
         email = form.email.data
         session['username'] = username
         session['email'] = email
-        # return render_template('user/profile.html', name=username)
+        flash("User is added successfully.")
         return redirect(url_for('user_profile', name=username))
     return render_template('user/add_user.html', form=form)
 
