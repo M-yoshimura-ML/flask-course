@@ -27,4 +27,7 @@
       </div>
       {{ form.submit(class="btn btn-primary") }}
     </form>
+    {% for user in user_list %}
+        {{ user.id }} - {{ user.name }} - {{ user.email }}<br>
+    {% endfor %}
 {% endblock %}

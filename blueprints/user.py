@@ -1,6 +1,8 @@
 from flask import Blueprint, session, render_template, flash, redirect, url_for
 
 from form.UserForm import AddUserForm
+from main import db
+from models.user import User
 
 user_bp = Blueprint('user', __name__, template_folder="templates")
 
@@ -18,8 +20,16 @@ def add_user():
     if form.validate_on_submit():
         username = form.username.data
         email = form.email.data
-        session['username'] = username
-        session['email'] = email
-        flash("User is added successfully.")
+        password = form.password.data
+        user = User.query.filter_by(email=email).first()
+        if user is None:
+            user = User(name=username, email=email, password=password)
+            db.session.add(user)
+            db.session.commit()
+            session['username'] = username
+            session['email'] = email
+            flash("User is added successfully.")
         return redirect(url_for('user.user_profile', name=username))
-    return render_template('user/add_user.html', form=form)
+    users = User.query.order_by(User.created_at)
+    print('users:', users)
+    return render_template('user/add_user.html', form=form, user_list=users)
