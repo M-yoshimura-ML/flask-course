@@ -1,6 +1,6 @@
 from flask import Blueprint, session, render_template, flash, redirect, url_for
 
-from form.UserForm import AddUserForm
+from form.UserForm import AddUserForm, UpdateUserForm
 from main import db
 from models.user import User
 
@@ -33,3 +33,17 @@ def add_user():
     users = User.query.order_by(User.created_at)
     print('users:', users)
     return render_template('user/add_user.html', form=form, user_list=users)
+
+
+@user_bp.route("/update-user/<int:id>", methods=['GET', 'POST'])
+def update_user(id):
+    form = UpdateUserForm()
+    user = User.query.get_or_404(id)
+    if form.validate_on_submit():
+        user.name = form.username.data
+        try:
+            db.session.commit()
+            flash("User is updated successfully.")
+        except:
+            flash("Error looks like there was a problem.")
+    return render_template("user/update_user.html", form=form, user=user)

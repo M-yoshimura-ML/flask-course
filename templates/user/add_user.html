@@ -39,7 +39,10 @@
         {% for user in user_list %}
           <tr>
             <th scope="row">{{ user.id }}</th>
-            <td>{{ user.name }}</td>
+            <td>
+              <a href="{{ url_for('user.update_user', id=user.id) }}">
+              {{ user.name }}</a>
+            </td>
             <td>{{ user.email }}</td>
           </tr>
         {% endfor %}
