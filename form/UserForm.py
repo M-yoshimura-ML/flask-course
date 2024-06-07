@@ -9,3 +9,8 @@ class AddUserForm(FlaskForm):
                                   Email("Please enter proper email address.")])
     password = PasswordField("Password", [DataRequired("Please enter password.")])
     submit = SubmitField("Send")
+
+
+class UpdateUserForm(FlaskForm):
+    username = StringField("User Name", [DataRequired("Please enter user name.")])
+    submit = SubmitField("Update")
