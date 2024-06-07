@@ -1,3 +1,5 @@
+import datetime
+
 from flask import Blueprint, session, render_template, flash, redirect, url_for
 
 from form.UserForm import AddUserForm, UpdateUserForm
@@ -31,7 +33,6 @@ def add_user():
             flash("User is added successfully.")
         return redirect(url_for('user.user_profile', name=username))
     users = User.query.order_by(User.created_at)
-    print('users:', users)
     return render_template('user/add_user.html', form=form, user_list=users)
 
 
@@ -41,6 +42,8 @@ def update_user(id):
     user = User.query.get_or_404(id)
     if form.validate_on_submit():
         user.name = form.username.data
+        user.address = form.address.data
+        user.updated_at = datetime.datetime.now()
         try:
             db.session.commit()
             flash("User is updated successfully.")

@@ -13,4 +13,5 @@ class AddUserForm(FlaskForm):
 
 class UpdateUserForm(FlaskForm):
     username = StringField("User Name", [DataRequired("Please enter user name.")])
+    address = StringField("Address")
     submit = SubmitField("Update")
