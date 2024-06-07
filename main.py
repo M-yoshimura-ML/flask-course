@@ -1,10 +1,12 @@
 from flask import Flask, render_template
+from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import CSRFProtect
 
 
 csrf = CSRFProtect()
 db = SQLAlchemy()
+migrate = Migrate()
 
 
 def create_app():
@@ -15,6 +17,7 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://admin:password!123@localhost:3306/flask_blog'
     csrf.init_app(app)
     db.init_app(app)
+    migrate.init_app(app, db)
     with app.app_context():
         db.create_all()
 
