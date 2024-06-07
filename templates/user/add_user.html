@@ -27,7 +27,22 @@
       </div>
       {{ form.submit(class="btn btn-primary") }}
     </form>
-    {% for user in user_list %}
-        {{ user.id }} - {{ user.name }} - {{ user.email }}<br>
-    {% endfor %}
+    <table class="table table-bordered table-hover mt-5">
+      <thead class="table-primary">
+        <tr>
+          <th scope="col">id</th>
+          <th scope="col">username</th>
+          <th scope="col">email</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for user in user_list %}
+          <tr>
+            <th scope="row">{{ user.id }}</th>
+            <td>{{ user.name }}</td>
+            <td>{{ user.email }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
 {% endblock %}
