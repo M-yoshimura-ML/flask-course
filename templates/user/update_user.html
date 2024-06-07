@@ -14,5 +14,6 @@
         {{ form.address(class="form-control", value=user.address) }}
       </div>
       {{ form.submit(class="btn btn-primary") }}
+      <a href="{{ url_for('user.delete_user', id=user.id )}}" class="btn btn-danger">Delete</a>
     </form>
 {% endblock %}
