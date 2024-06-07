@@ -50,3 +50,15 @@ def update_user(id):
         except:
             flash("Error looks like there was a problem.")
     return render_template("user/update_user.html", form=form, user=user)
+
+
+@user_bp.route("/delete/<int:id>")
+def delete_user(id):
+    user = User.query.get_or_404(id)
+    try:
+        db.session.delete(user)
+        db.session.commit()
+        flash("User is deleted successfully.")
+    except:
+        flash("There was a problem to delete user.")
+    return redirect('/user/add-user')
