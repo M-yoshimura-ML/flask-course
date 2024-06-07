@@ -10,6 +10,8 @@
         {% for error in form.username.errors %}
           <div class="alert alert-danger">{{ error }}</div>
         {% endfor %}
+        {{ form.address.label(class="form-label") }}
+        {{ form.address(class="form-control", value=user.address) }}
       </div>
       {{ form.submit(class="btn btn-primary") }}
     </form>
