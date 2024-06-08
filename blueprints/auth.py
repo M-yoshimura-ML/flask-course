@@ -1,5 +1,5 @@
 from flask import Blueprint, session, flash, redirect, url_for, render_template
-from flask_login import login_user
+from flask_login import login_user, logout_user, login_required
 
 from form.UserForm import AddUserForm, LoginForm
 from main import db, login_manager
@@ -47,6 +47,13 @@ def login():
         else:
             flash('email or password is wrong.')
     return render_template('auth/login.html', form=form)
+
+
+@auth_bp.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect('/login')
 
 
 @login_manager.user_loader
