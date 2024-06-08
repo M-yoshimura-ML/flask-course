@@ -1,7 +1,8 @@
 from flask import Blueprint, session, flash, redirect, url_for, render_template
+from flask_login import login_user
 
 from form.UserForm import AddUserForm, LoginForm
-from main import db
+from main import db, login_manager
 from models.user import User
 
 auth_bp = Blueprint('auth', __name__, template_folder="templates")
@@ -30,4 +31,18 @@ def signup():
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
+    if form.validate_on_submit():
+        email = form.email.data
+        password = form.password.data
+        user = User.query.filter_by(email=email).first()
+        if user and user.verify_password(password):
+            login_user(user)
+            flash('authentication is successful.')
+        else:
+            flash('email or password is wrong.')
     return render_template('auth/login.html', form=form)
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
