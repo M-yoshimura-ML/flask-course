@@ -16,7 +16,7 @@ class User(UserMixin, db.Model):
     updated_at = db.Column(db.DateTime, default=datetime.now())
 
     def __repr__(self):
-        return '<Name %r>' % self.name
+        return self.name + ' san'
 
     @property
     def password(self):

@@ -1,11 +1,16 @@
 from flask import Blueprint, session, flash, redirect, url_for, render_template
-from flask_login import login_user
+from flask_login import login_user, logout_user, login_required
 
 from form.UserForm import AddUserForm, LoginForm
 from main import db, login_manager
 from models.user import User
 
 auth_bp = Blueprint('auth', __name__, template_folder="templates")
+
+
+@auth_bp.route('/dashboard')
+def dashboard():
+    return render_template('dashboard.html')
 
 
 @auth_bp.route('/signup', methods=['GET', 'POST'])
@@ -38,11 +43,25 @@ def login():
         if user and user.verify_password(password):
             login_user(user)
             flash('authentication is successful.')
+            return redirect('/dashboard')
         else:
             flash('email or password is wrong.')
     return render_template('auth/login.html', form=form)
 
 
+@auth_bp.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect('/login')
+
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
+
+@login_manager.unauthorized_handler
+def unauthorized_handler():
+    return redirect('/login')
+

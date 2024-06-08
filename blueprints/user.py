@@ -1,6 +1,7 @@
 import datetime
 
 from flask import Blueprint, session, render_template, flash, redirect, url_for
+from flask_login import login_required
 
 from form.UserForm import AddUserForm, UpdateUserForm
 from main import db
@@ -10,6 +11,7 @@ user_bp = Blueprint('user', __name__, template_folder="templates")
 
 
 @user_bp.route('/profile/<name>')
+@login_required
 def user_profile(name):
     if 'email' in session:
         name = session.get('username')
@@ -17,6 +19,7 @@ def user_profile(name):
 
 
 @user_bp.route('/add-user', methods=['GET', 'POST'])
+@login_required
 def add_user():
     form = AddUserForm()
     if form.validate_on_submit():
@@ -38,6 +41,7 @@ def add_user():
 
 
 @user_bp.route("/update-user/<int:id>", methods=['GET', 'POST'])
+@login_required
 def update_user(id):
     form = UpdateUserForm()
     user = User.query.get_or_404(id)
@@ -54,6 +58,7 @@ def update_user(id):
 
 
 @user_bp.route("/delete/<int:id>")
+@login_required
 def delete_user(id):
     user = User.query.get_or_404(id)
     try:
