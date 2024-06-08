@@ -8,6 +8,11 @@ from models.user import User
 auth_bp = Blueprint('auth', __name__, template_folder="templates")
 
 
+@auth_bp.route('/dashboard')
+def dashboard():
+    return render_template('dashboard.html')
+
+
 @auth_bp.route('/signup', methods=['GET', 'POST'])
 def signup():
     form = AddUserForm()
@@ -38,6 +43,7 @@ def login():
         if user and user.verify_password(password):
             login_user(user)
             flash('authentication is successful.')
+            return redirect('/dashboard')
         else:
             flash('email or password is wrong.')
     return render_template('auth/login.html', form=form)
