@@ -18,3 +18,10 @@ class UpdateUserForm(FlaskForm):
     username = StringField("User Name", [DataRequired("Please enter user name.")])
     address = StringField("Address")
     submit = SubmitField("Update")
+
+
+class LoginForm(FlaskForm):
+    email = StringField("Email", [DataRequired("please enter email address."),
+                                  Email("Please enter proper email address.")])
+    password = PasswordField("Password", [DataRequired("Please enter password.")])
+    submit = SubmitField("Login")
