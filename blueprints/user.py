@@ -10,12 +10,10 @@ from models.user import User
 user_bp = Blueprint('user', __name__, template_folder="templates")
 
 
-@user_bp.route('/profile/<name>')
+@user_bp.route('/profile')
 @login_required
-def user_profile(name):
-    if 'email' in session:
-        name = session.get('username')
-    return render_template('user/profile.html', name=name)
+def user_profile():
+    return render_template('user/profile.html')
 
 
 @user_bp.route('/add-user', methods=['GET', 'POST'])
