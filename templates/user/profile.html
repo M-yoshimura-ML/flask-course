@@ -2,7 +2,18 @@
 {% block title %}Profile{% endblock %}
 {% block content %}
     <h1>Profile</h1>
-    {% if name %}
-        <p>{{ name }}</p>
-    {% endif %}
+    <div class="card">
+      <div class="card-header">
+        {{ current_user.name }}
+      </div>
+      <div class="card-body">
+        <h5 class="card-title">Welcome to Your Profile</h5>
+        <p class="card-text">Username: {{ current_user.name }}</p>
+        <p class="card-text">Email: {{ current_user.email }}</p>
+        <p class="card-text">Address: {{ current_user.address }}</p>
+        <p class="card-text">Created At: {{ current_user.created_at }}</p>
+        <p class="card-text">Updated At: {{ current_user.updated_at }}</p>
+        <a href="{{ url_for('user.update_user', id=current_user.id ) }}" class="btn btn-primary">update</a>
+      </div>
+    </div>
 {% endblock %}
