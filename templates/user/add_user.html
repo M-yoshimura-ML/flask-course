@@ -25,6 +25,13 @@
           <div class="alert alert-danger">{{ error }}</div>
         {% endfor %}
       </div>
+      <div class="mb-3">
+        {{ form.password2.label(class="form-label") }}
+        {{ form.password2(class="form-control") }}
+        {% for error in form.password2.errors %}
+          <div class="alert alert-danger">{{ error }}</div>
+        {% endfor %}
+      </div>
       {{ form.submit(class="btn btn-primary") }}
     </form>
     <table class="table table-bordered table-hover mt-5">

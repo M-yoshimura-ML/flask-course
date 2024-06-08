@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
-from wtforms.validators import DataRequired, Email
+from wtforms.validators import DataRequired, Email, EqualTo
 
 
 class AddUserForm(FlaskForm):
@@ -8,6 +8,9 @@ class AddUserForm(FlaskForm):
     email = StringField("Email", [DataRequired("please enter email address."),
                                   Email("Please enter proper email address.")])
     password = PasswordField("Password", [DataRequired("Please enter password.")])
+    password2 = PasswordField("Password Confirm",
+                              validators=[DataRequired("Please enter password."),
+                                          EqualTo('password', message='Password Confirm must match with password.')])
     submit = SubmitField("Send")
 
 

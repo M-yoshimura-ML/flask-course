@@ -25,7 +25,8 @@ def add_user():
         password = form.password.data
         user = User.query.filter_by(email=email).first()
         if user is None:
-            user = User(name=username, email=email, password=password)
+            user = User(name=username, email=email)
+            user.password = password
             db.session.add(user)
             db.session.commit()
             session['username'] = username
