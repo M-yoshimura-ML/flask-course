@@ -40,6 +40,7 @@
           <th scope="col">id</th>
           <th scope="col">username</th>
           <th scope="col">email</th>
+          <th scope="col">user/admin</th>
           <th scope="col">created at</th>
           <th scope="col">updated at</th>
         </tr>
@@ -53,6 +54,7 @@
               {{ user.name }}</a>
             </td>
             <td>{{ user.email }}</td>
+            <td>{{ user.role }}</td>
             <td>{{ user.created_at }}</td>
             <td>{{ user.updated_at }}</td>
           </tr>
