@@ -2,18 +2,22 @@
 {% block title %}Update User{% endblock %}
 {% block content %}
     <h1>Update User</h1>
-    <form method="POST" action="/user/update-user/{{ user.id }}" novalidate>
-      {{ form.csrf_token }}
-      <div class="mb-3">
-        {{ form.username.label(class="form-label") }}
-        {{ form.username(class="form-control", value=user.name) }}
-        {% for error in form.username.errors %}
-          <div class="alert alert-danger">{{ error }}</div>
-        {% endfor %}
-        {{ form.address.label(class="form-label") }}
-        {{ form.address(class="form-control", value=user.address) }}
-      </div>
-      {{ form.submit(class="btn btn-primary") }}
-      <a href="{{ url_for('user.delete_user', id=user.id )}}" class="btn btn-danger">Delete</a>
-    </form>
+    {% if user.id == current_user.id %}
+        <form method="POST" action="/user/update-user/{{ user.id }}" novalidate>
+          {{ form.csrf_token }}
+          <div class="mb-3">
+            {{ form.username.label(class="form-label") }}
+            {{ form.username(class="form-control", value=user.name) }}
+            {% for error in form.username.errors %}
+              <div class="alert alert-danger">{{ error }}</div>
+            {% endfor %}
+            {{ form.address.label(class="form-label") }}
+            {{ form.address(class="form-control", value=user.address) }}
+          </div>
+          {{ form.submit(class="btn btn-primary") }}
+          <a href="{{ url_for('user.delete_user', id=user.id )}}" class="btn btn-danger">Delete</a>
+        </form>
+    {% else %}
+        <p>You have not privilege to update another user.</p>
+    {% endif %}
 {% endblock %}
