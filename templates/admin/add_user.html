@@ -2,7 +2,7 @@
 {% block title %}Add User{% endblock %}
 {% block content %}
     <h1>Add User</h1>
-    <form method="POST" action="/user/add-user" novalidate>
+    <form method="POST" action="/admin/add-user" novalidate>
       {{ form.csrf_token }}
       <div class="mb-3">
         {{ form.username.label(class="form-label") }}
