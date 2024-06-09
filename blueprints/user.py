@@ -1,9 +1,9 @@
 import datetime
 
-from flask import Blueprint, session, render_template, flash, redirect, url_for
-from flask_login import login_required, current_user
+from flask import Blueprint, render_template, flash, redirect
+from flask_login import login_required
 
-from form.UserForm import AddUserForm, UpdateUserForm
+from form.UserForm import UpdateUserForm
 from main import db
 from models.user import User
 
@@ -14,38 +14,6 @@ user_bp = Blueprint('user', __name__, template_folder="templates")
 @login_required
 def user_profile():
     return render_template('user/profile.html')
-
-
-def admin_check():
-    if current_user.role.name != 'admin':
-        flash("You do not have permission to access this page.")
-        return redirect(url_for('auth.dashboard'))
-
-
-@user_bp.route('/add-user', methods=['GET', 'POST'])
-@login_required
-def add_user():
-    check_result = admin_check()
-    if check_result:
-        return check_result
-
-    form = AddUserForm()
-    if form.validate_on_submit():
-        username = form.username.data
-        email = form.email.data
-        password = form.password.data
-        user = User.query.filter_by(email=email).first()
-        if user is None:
-            user = User(name=username, email=email)
-            user.password = password
-            db.session.add(user)
-            db.session.commit()
-            session['username'] = username
-            session['email'] = email
-            flash("User is added successfully.")
-        return redirect(url_for('user.add_user'))
-    users = User.query.order_by(User.created_at)
-    return render_template('user/add_user.html', form=form, user_list=users)
 
 
 @user_bp.route("/update-user/<int:id>", methods=['GET', 'POST'])

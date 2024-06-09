@@ -12,7 +12,7 @@
           </li>
           {% if current_user.role.name == 'admin' %}
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="{{ url_for('user.add_user')}}">Add User</a>
+              <a class="nav-link active" aria-current="page" href="{{ url_for('admin.add_user')}}">Add User</a>
             </li>
           {% endif %}
           <li class="nav-item">
