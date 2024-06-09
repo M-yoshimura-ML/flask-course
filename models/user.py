@@ -5,6 +5,15 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from main import db
 
 
+class Role(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(20), unique=True, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.now())
+
+    def __repr__(self):
+        return f"Role: {self.name}"
+
+
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(200), nullable=False)
@@ -14,6 +23,8 @@ class User(UserMixin, db.Model):
     address = db.Column(db.String(200))
     created_at = db.Column(db.DateTime, default=datetime.now())
     updated_at = db.Column(db.DateTime, default=datetime.now())
+    role_id = db.Column(db.Integer, db.ForeignKey('role.id'), nullable=False, default=2)
+    role = db.relationship('Role', backref=db.backref('user', lazy=True))
 
     def __repr__(self):
         return self.name + ' san'
