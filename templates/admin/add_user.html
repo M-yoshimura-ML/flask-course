@@ -50,7 +50,7 @@
           <tr>
             <th scope="row">{{ user.id }}</th>
             <td>
-              <a href="{{ url_for('user.update_user', id=user.id) }}">
+              <a href="{{ url_for('admin.update_user', id=user.id) }}">
               {{ user.name }}</a>
             </td>
             <td>{{ user.email }}</td>
