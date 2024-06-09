@@ -1,7 +1,7 @@
 import datetime
 
 from flask import Blueprint, session, render_template, flash, redirect, url_for
-from flask_login import login_required
+from flask_login import login_required, current_user
 
 from form.UserForm import AddUserForm, UpdateUserForm
 from main import db
@@ -16,9 +16,19 @@ def user_profile():
     return render_template('user/profile.html')
 
 
+def admin_check():
+    if current_user.role.name != 'admin':
+        flash("You do not have permission to access this page.")
+        return redirect(url_for('auth.dashboard'))
+
+
 @user_bp.route('/add-user', methods=['GET', 'POST'])
 @login_required
 def add_user():
+    check_result = admin_check()
+    if check_result:
+        return check_result
+
     form = AddUserForm()
     if form.validate_on_submit():
         username = form.username.data
@@ -33,7 +43,7 @@ def add_user():
             session['username'] = username
             session['email'] = email
             flash("User is added successfully.")
-        return redirect(url_for('user.user_profile', name=username))
+        return redirect(url_for('user.add_user'))
     users = User.query.order_by(User.created_at)
     return render_template('user/add_user.html', form=form, user_list=users)
 
