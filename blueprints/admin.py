@@ -1,8 +1,9 @@
+from datetime import datetime
 
 from flask import Blueprint, flash, redirect, url_for, session, render_template
 from flask_login import current_user, login_required
 
-from form.UserForm import AddUserForm
+from form.UserForm import AddUserForm, UpdateUserForm
 from main import db
 from models.user import User
 
@@ -40,3 +41,23 @@ def add_user():
     users = User.query.order_by(User.created_at)
     return render_template('admin/add_user.html', form=form, user_list=users)
 
+
+@admin_bp.route("/update-user/<int:id>", methods=['GET', 'POST'])
+@login_required
+def update_user(id):
+    check_result = admin_check()
+    if check_result:
+        return check_result
+
+    form = UpdateUserForm()
+    user = User.query.get_or_404(id)
+    if form.validate_on_submit():
+        user.name = form.username.data
+        user.address = form.address.data
+        user.updated_at = datetime.now()
+        try:
+            db.session.commit()
+            flash("User is updated successfully.")
+        except:
+            flash("Error looks like there was a problem.")
+    return render_template("admin/update_user.html", form=form, user=user)
