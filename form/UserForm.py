@@ -1,5 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
+from wtforms.fields.choices import SelectField
 from wtforms.validators import DataRequired, Email, EqualTo
 
 
@@ -25,3 +26,13 @@ class LoginForm(FlaskForm):
                                   Email("Please enter proper email address.")])
     password = PasswordField("Password", [DataRequired("Please enter password.")])
     submit = SubmitField("Login")
+
+
+class AdminUpdateUserForm(FlaskForm):
+    def coerce_role(self, value):
+        return int(value)
+
+    username = StringField("User Name", [DataRequired("Please enter user name.")])
+    address = StringField("Address")
+    role = SelectField("Select Role", choices=[('1', 'admin'), ('2', 'user')], coerce=coerce_role)
+    submit = SubmitField("Update")

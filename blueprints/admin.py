@@ -1,9 +1,9 @@
 from datetime import datetime
 
-from flask import Blueprint, flash, redirect, url_for, session, render_template
+from flask import Blueprint, flash, redirect, url_for, session, render_template, request
 from flask_login import current_user, login_required
 
-from form.UserForm import AddUserForm, UpdateUserForm
+from form.UserForm import AddUserForm, AdminUpdateUserForm
 from main import db
 from models.user import User
 
@@ -49,11 +49,14 @@ def update_user(id):
     if check_result:
         return check_result
 
-    form = UpdateUserForm()
+    form = AdminUpdateUserForm()
     user = User.query.get_or_404(id)
+    if request.method == 'GET':
+        form.role.data = user.role_id
     if form.validate_on_submit():
         user.name = form.username.data
         user.address = form.address.data
+        user.role_id = form.role.data
         user.updated_at = datetime.now()
         try:
             db.session.commit()
