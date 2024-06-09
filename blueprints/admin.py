@@ -64,3 +64,20 @@ def update_user(id):
         except:
             flash("Error looks like there was a problem.")
     return render_template("admin/update_user.html", form=form, user=user)
+
+
+@admin_bp.route("/delete/<int:id>")
+@login_required
+def delete_user(id):
+    check_result = admin_check()
+    if check_result:
+        return check_result
+
+    user = User.query.get_or_404(id)
+    try:
+        db.session.delete(user)
+        db.session.commit()
+        flash("User is deleted successfully.")
+    except:
+        flash("There was a problem to delete user.")
+    return redirect('/admin/add-user')

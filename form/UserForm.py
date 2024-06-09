@@ -29,7 +29,7 @@ class LoginForm(FlaskForm):
 
 
 class AdminUpdateUserForm(FlaskForm):
-    def coerce_role(self, value):
+    def coerce_role(value):
         return int(value)
 
     username = StringField("User Name", [DataRequired("Please enter user name.")])
