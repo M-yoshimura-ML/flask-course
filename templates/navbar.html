@@ -26,6 +26,12 @@
             <a class="nav-link active" aria-current="page" href="{{ url_for('auth.login')}}">Login</a>
           </li>
         {% endif %}
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{{ url_for('post.add_post')}}">Create blog</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{{ url_for('post.post_list')}}">Blog List</a>
+        </li>
 
       </ul>
       <form class="d-flex" role="search">
