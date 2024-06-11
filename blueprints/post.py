@@ -25,3 +25,9 @@ def add_post():
         except:
             flash("There is something wrong to create post.")
     return render_template('post/add_post.html', form=form)
+
+
+@post_bp.route('/post-list', methods=['GET', 'POST'])
+def post_list():
+    posts = Post.query.order_by(Post.created_at)
+    return render_template('post/post_list.html', posts=posts)
