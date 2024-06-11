@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, flash
+from flask import Blueprint, render_template, flash, abort
 
 from form.PostForm import PostForm
 from main import db
@@ -27,7 +27,16 @@ def add_post():
     return render_template('post/add_post.html', form=form)
 
 
-@post_bp.route('/post-list', methods=['GET', 'POST'])
+@post_bp.route('/post-list', methods=['GET'])
 def post_list():
     posts = Post.query.order_by(Post.created_at)
     return render_template('post/post_list.html', posts=posts)
+
+
+@post_bp.route('/view-post/<slug>', methods=['GET'])
+def view_post(slug):
+    post = Post.query.filter_by(slug=slug).first()
+    if not post:
+        abort(404)
+    return render_template('post/view_post.html', post=post)
+

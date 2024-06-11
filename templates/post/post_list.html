@@ -11,6 +11,7 @@
           <th scope="col">slug</th>
           <th scope="col">created at</th>
           <th scope="col">updated at</th>
+          <th scope="col">View</th>
         </tr>
       </thead>
       <tbody>
@@ -24,6 +25,8 @@
             <td>{{ post.slug }}</td>
             <td>{{ post.created_at }}</td>
             <td>{{ post.updated_at }}</td>
+            <td><a href="{{ url_for('post.view_post', slug=post.slug) }}" class="btn btn-outline-secondary btn-sm">
+              View post</a></td>
           </tr>
         {% endfor %}
       </tbody>
