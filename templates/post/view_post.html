@@ -6,7 +6,7 @@
         <h2>{{ post.title }}</h2>
         <small>Created at: {{ post.created_at }}</small>
         <small>Updated at: {{ post.updated_at }}</small>
-        <div>{{ post.content }}</div>
+        <div>{{ post.content|safe }}</div>
     </div>
     <a href="{{ url_for('post.post_list') }}" class="btn btn-outline-secondary btn-sm">Back to list</a>
 {% endblock %}
