@@ -12,6 +12,7 @@
           <th scope="col">created at</th>
           <th scope="col">updated at</th>
           <th scope="col">View</th>
+          <th scope="col">Edit</th>
         </tr>
       </thead>
       <tbody>
@@ -27,6 +28,8 @@
             <td>{{ post.updated_at }}</td>
             <td><a href="{{ url_for('post.view_post', slug=post.slug) }}" class="btn btn-outline-secondary btn-sm">
               View post</a></td>
+            <td><a href="{{ url_for('post.update_post', id=post.id) }}" class="btn btn-outline-secondary btn-sm">
+              Edit post</a></td>
           </tr>
         {% endfor %}
       </tbody>

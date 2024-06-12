@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Update Post{% endblock %}
+{% block content %}
+    <h1>Update Post</h1>
+    <form method="POST" action="/post/update-post/{{ id }}" novalidate>
+      {{ form.csrf_token }}
+      <div class="mb-3">
+        {{ form.title.label(class="form-label") }}
+        {{ form.title(class="form-control") }}
+        {% for error in form.title.errors %}
+          <div class="alert alert-danger">{{ error }}</div>
+        {% endfor %}
+      </div>
+      <div class="mb-3">
+        {{ form.content.label(class="form-label") }}
+        {{ form.content(class="form-control") }}
+        {% for error in form.content.errors %}
+          <div class="alert alert-danger">{{ error }}</div>
+        {% endfor %}
+      </div>
+      <div class="mb-3">
+        {{ form.slug.label(class="form-label") }}
+        {{ form.slug(class="form-control") }}
+        {% for error in form.slug.errors %}
+          <div class="alert alert-danger">{{ error }}</div>
+        {% endfor %}
+      </div>
+      {{ form.submit(class="btn btn-primary") }}
+    </form>
+{% endblock %}

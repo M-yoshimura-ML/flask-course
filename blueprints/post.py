@@ -40,3 +40,23 @@ def view_post(slug):
         abort(404)
     return render_template('post/view_post.html', post=post)
 
+
+@post_bp.route('/update-post/<id>', methods=['GET', 'POST'])
+def update_post(id):
+    post = Post.query.get_or_404(id)
+    form = PostForm()
+    if form.validate_on_submit():
+        post.title = form.title.data
+        post.content = form.content.data
+        post.slug = form.slug.data
+        try:
+            db.session.add(post)
+            db.session.commit()
+            flash("Post has been updated successfully.")
+        except:
+            flash("There is something wrong to update post.")
+    else:
+        form.title.data = post.title
+        form.content.data = post.content
+        form.slug.data = post.slug
+    return render_template("post/update_post.html", form=form, post=post, id=id)
