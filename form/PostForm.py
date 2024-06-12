@@ -16,8 +16,6 @@ def validate_slug(form, field):
 def validate_unique_slug(form, field):
     slug = field.data
     post_id = form.post_id.data if 'post_id' in form else None
-    print('post_id:', post_id)
-    print('type of post_id:', type(post_id))
     existing_post = Post.query.filter_by(slug=slug).first()
     if existing_post and (post_id is None or existing_post.id != int(post_id)):
         raise ValidationError("This slug is already in use. Please choose different one.")

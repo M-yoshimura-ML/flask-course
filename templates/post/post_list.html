@@ -7,12 +7,12 @@
         <tr>
           <th scope="col">id</th>
           <th scope="col">title</th>
-          <th scope="col">content</th>
           <th scope="col">slug</th>
           <th scope="col">created at</th>
           <th scope="col">updated at</th>
           <th scope="col">View</th>
           <th scope="col">Edit</th>
+          <th scope="col">Delete</th>
         </tr>
       </thead>
       <tbody>
@@ -22,7 +22,6 @@
             <td>
               {{ post.title }}
             </td>
-            <td>{{ post.content }}</td>
             <td>{{ post.slug }}</td>
             <td>{{ post.created_at }}</td>
             <td>{{ post.updated_at }}</td>
@@ -30,6 +29,8 @@
               View post</a></td>
             <td><a href="{{ url_for('post.update_post', id=post.id) }}" class="btn btn-outline-secondary btn-sm">
               Edit post</a></td>
+            <td><a href="{{ url_for('post.delete_post', id=post.id) }}" class="btn btn-outline-danger btn-sm">
+              Delete post</a></td>
           </tr>
         {% endfor %}
       </tbody>

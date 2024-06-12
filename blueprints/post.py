@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, flash, abort
+from flask import Blueprint, render_template, flash, abort, redirect, url_for
 
 from form.PostForm import PostForm
 from main import db
@@ -61,3 +61,15 @@ def update_post(id):
         form.slug.data = post.slug
         form.post_id.data = post.id
     return render_template("post/update_post.html", form=form, id=id)
+
+
+@post_bp.route('/delete-post/<id>', methods=['GET'])
+def delete_post(id):
+    post = Post.query.get_or_404(id)
+    try:
+        db.session.delete(post)
+        db.session.commit()
+        flash("Post is deleted successfully.")
+    except:
+        flash("There is something wrong to delete post.")
+    return redirect(url_for('post.post_list'))
