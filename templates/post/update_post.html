@@ -4,6 +4,7 @@
     <h1>Update Post</h1>
     <form method="POST" action="/post/update-post/{{ id }}" novalidate>
       {{ form.csrf_token }}
+      {{ form.post_id }}
       <div class="mb-3">
         {{ form.title.label(class="form-label") }}
         {{ form.title(class="form-control") }}

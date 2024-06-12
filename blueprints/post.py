@@ -59,4 +59,5 @@ def update_post(id):
         form.title.data = post.title
         form.content.data = post.content
         form.slug.data = post.slug
-    return render_template("post/update_post.html", form=form, post=post, id=id)
+        form.post_id.data = post.id
+    return render_template("post/update_post.html", form=form, id=id)
