@@ -2,5 +2,20 @@
 {% block title %}Searched Result{% endblock %}
 {% block content %}
     <h1>Searched Result</h1>
-    You searched :{{ searched }}
+    You searched :<em>{{ searched }}</em>
+    {% if posts %}
+        {% for post in posts %}
+            <div class="shadow p-3 mb-5 bg-body-tertiary rounded">
+                <h2>{{ post.title }}</h2>
+                <small>Created at: {{ post.created_at }}</small>
+                <small>Updated at: {{ post.updated_at }}</small>
+                <div>{{ post.content|safe }}</div>
+                <a href="{{ url_for('post.view_post', slug=post.slug) }}" class="btn btn-outline-secondary btn-sm">
+                    View Post</a>
+            </div>
+
+        {% endfor %}
+    {% else %}
+        <p>sorry, your search condition: <em>{{ searched }}</em> was not found.</p>
+    {% endif %}
 {% endblock %}
