@@ -3,7 +3,7 @@ import os
 from flask import Blueprint, render_template, flash, abort, redirect, url_for, request, jsonify
 from werkzeug.utils import secure_filename
 
-from form.PostForm import PostForm
+from form.PostForm import PostForm, SearchForm
 from main import db, csrf
 from models.post import Post
 
@@ -91,3 +91,12 @@ def upload():
         url = url_for('static', filename='images/uploads/' + filename)
         return jsonify({"uploaded": 1, "filename": filename, "url": url})
     return jsonify({"uploaded": 0, "error": {"message": "upload failed"}})
+
+
+@post_bp.route('/search', methods=['POST'])
+def search():
+    form = SearchForm()
+    searched = form.searched.data
+    if form.validate_on_submit():
+        return render_template('post/search_post.html', form=form, searched=searched)
+

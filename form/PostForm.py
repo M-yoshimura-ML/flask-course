@@ -27,3 +27,8 @@ class PostForm(FlaskForm):
     slug = StringField("slug", [DataRequired("Please enter slug."), validate_slug, validate_unique_slug])
     post_id = HiddenField("Post ID")
     submit = SubmitField("submit")
+
+
+class SearchForm(FlaskForm):
+    searched = StringField("Searched", validators=[DataRequired()])
+    submit = SubmitField("submit")
