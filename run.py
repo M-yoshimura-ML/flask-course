@@ -5,6 +5,7 @@ from blueprints.auth import auth_bp
 from blueprints.post import post_bp
 from blueprints.tests import test_bp
 from blueprints.user import user_bp
+from form.PostForm import SearchForm
 from main import create_app
 
 app = create_app()
@@ -28,6 +29,12 @@ def hello():
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template("errors/404.html", error=e), 404
+
+
+@app.context_processor
+def inject_search_form():
+    form = SearchForm()
+    return dict(form=form)
 
 
 if __name__ == "__main__":
