@@ -8,6 +8,11 @@ from models.user import User
 auth_bp = Blueprint('auth', __name__, template_folder="templates")
 
 
+@auth_bp.route('/')
+def top():
+    return redirect(url_for('auth.dashboard'))
+
+
 @auth_bp.route('/dashboard')
 def dashboard():
     return render_template('dashboard.html')
