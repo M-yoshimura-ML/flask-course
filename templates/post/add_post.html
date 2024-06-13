@@ -37,7 +37,11 @@
     <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
     <script>
         ClassicEditor
-            .create( document.querySelector( '#content' ) )
+            .create( document.querySelector( '#content' ), {
+                 ckfinder: {
+                    uploadUrl: "{{ url_for('post.upload') }}"
+                }
+            } )
             .catch( error => {
                 console.error( error );
             } );

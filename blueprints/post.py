@@ -1,7 +1,10 @@
-from flask import Blueprint, render_template, flash, abort, redirect, url_for
+import os
+
+from flask import Blueprint, render_template, flash, abort, redirect, url_for, request, jsonify
+from werkzeug.utils import secure_filename
 
 from form.PostForm import PostForm
-from main import db
+from main import db, csrf
 from models.post import Post
 
 post_bp = Blueprint('post', __name__, template_folder='templates')
@@ -73,3 +76,16 @@ def delete_post(id):
     except:
         flash("There is something wrong to delete post.")
     return redirect(url_for('post.post_list'))
+
+
+@post_bp.route('/upload', methods=['POST'])
+@csrf.exempt
+def upload():
+    f = request.files.get('upload')
+    if f:
+        filename = secure_filename(f.filename)
+        filepath = os.path.join('static/images/uploads/' + filename)
+        f.save(filepath)
+        url = url_for('static', filename='images/uploads/' + filename)
+        return jsonify({"uploaded": 1, "filename": filename, "url": url})
+    return jsonify({"uploaded": 0, "error": {"message": "upload failed"}})
