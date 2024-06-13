@@ -1,6 +1,7 @@
 import os
 
 from flask import Blueprint, render_template, flash, abort, redirect, url_for, request, jsonify
+from sqlalchemy import desc
 from werkzeug.utils import secure_filename
 
 from form.PostForm import PostForm, SearchForm
@@ -98,5 +99,6 @@ def search():
     form = SearchForm()
     searched = form.searched.data
     if form.validate_on_submit():
-        return render_template('post/search_post.html', form=form, searched=searched)
+        posts = Post.query.filter(Post.content.like('%' + searched + '%')).order_by(desc(Post.created_at)).all()
+        return render_template('post/search_post.html', form=form, searched=searched, posts=posts)
 
