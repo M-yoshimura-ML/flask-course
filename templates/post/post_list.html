@@ -8,6 +8,7 @@
           <th scope="col">id</th>
           <th scope="col">title</th>
           <th scope="col">slug</th>
+          <th scope="col">Author</th>
           <th scope="col">created at</th>
           <th scope="col">updated at</th>
           <th scope="col">View</th>
@@ -23,6 +24,7 @@
               {{ post.title }}
             </td>
             <td>{{ post.slug }}</td>
+            <td>{{ post.user.name }}</td>
             <td>{{ post.created_at }}</td>
             <td>{{ post.updated_at }}</td>
             <td><a href="{{ url_for('post.view_post', slug=post.slug) }}" class="btn btn-outline-secondary btn-sm">
