@@ -35,4 +35,12 @@
         {% endfor %}
       </tbody>
     </table>
+    {% if posts.has_prev %}
+      <a href="{{ url_for('post.post_list', page=posts.prev_num) }}" class="btn btn-outline-primary btn-sm">
+          Previous</a>
+    {% endif %}
+    {% if posts.has_next %}
+      <a href="{{ url_for('post.post_list', page=posts.next_num) }}" class="btn btn-outline-primary btn-sm">
+          Next</a>
+    {% endif %}
 {% endblock %}

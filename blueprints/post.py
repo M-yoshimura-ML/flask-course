@@ -32,7 +32,9 @@ def add_post():
 
 @post_bp.route('/post-list', methods=['GET'])
 def post_list():
-    posts = Post.query.order_by(Post.created_at)
+    page = request.args.get('page', 1, type=int)
+    per_page = 2
+    posts = Post.query.order_by(Post.created_at).paginate(page=page, per_page=per_page, error_out=False)
     return render_template('post/post_list.html', posts=posts)
 
 
