@@ -1,6 +1,7 @@
 import os
 
 from flask import Blueprint, render_template, flash, abort, redirect, url_for, request, jsonify
+from flask_login import login_required, current_user
 from sqlalchemy import desc
 from werkzeug.utils import secure_filename
 
@@ -12,13 +13,15 @@ post_bp = Blueprint('post', __name__, template_folder='templates')
 
 
 @post_bp.route('/add-post', methods=['GET', 'POST'])
+@login_required
 def add_post():
     form = PostForm()
     if form.validate_on_submit():
         title = form.title.data
         content = form.content.data
         slug = form.slug.data
-        post = Post(title=title, content=content, slug=slug)
+        user_id = current_user.id
+        post = Post(title=title, content=content, slug=slug, user_id=user_id)
         try:
             db.session.add(post)
             db.session.commit()
@@ -34,7 +37,7 @@ def add_post():
 @post_bp.route('/post-list', methods=['GET'])
 def post_list():
     page = request.args.get('page', 1, type=int)
-    per_page = 2
+    per_page = 5
     posts = Post.query.order_by(Post.created_at).paginate(page=page, per_page=per_page, error_out=False)
     return render_template('post/post_list.html', posts=posts)
 
@@ -48,6 +51,7 @@ def view_post(slug):
 
 
 @post_bp.route('/update-post/<id>', methods=['GET', 'POST'])
+@login_required
 def update_post(id):
     post = Post.query.get_or_404(id)
     form = PostForm()
@@ -70,6 +74,7 @@ def update_post(id):
 
 
 @post_bp.route('/delete-post/<id>', methods=['GET'])
+@login_required
 def delete_post(id):
     post = Post.query.get_or_404(id)
     try:
