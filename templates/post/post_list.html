@@ -29,10 +29,20 @@
             <td>{{ post.updated_at }}</td>
             <td><a href="{{ url_for('post.view_post', slug=post.slug) }}" class="btn btn-outline-secondary btn-sm">
               View post</a></td>
-            <td><a href="{{ url_for('post.update_post', id=post.id) }}" class="btn btn-outline-secondary btn-sm">
-              Edit post</a></td>
-            <td><a href="{{ url_for('post.delete_post', id=post.id) }}" class="btn btn-outline-danger btn-sm">
-              Delete post</a></td>
+            <td>
+                {% if post.user_id == current_user.id %}
+                    <a href="{{ url_for('post.update_post', id=post.id) }}" class="btn btn-outline-secondary btn-sm">
+                        Edit post
+                    </a>
+                {% endif %}
+            </td>
+            <td>
+                {% if post.user_id == current_user.id %}
+                    <a href="{{ url_for('post.delete_post', id=post.id) }}" class="btn btn-outline-danger btn-sm">
+                        Delete post
+                    </a>
+                {% endif %}
+            </td>
           </tr>
         {% endfor %}
       </tbody>

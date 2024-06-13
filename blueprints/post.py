@@ -50,11 +50,21 @@ def view_post(slug):
     return render_template('post/view_post.html', post=post)
 
 
+def own_user_check(post, message):
+    if not (post.user_id == current_user.id):
+        flash(message=message)
+        return redirect(url_for('post.post_list'))
+
+
 @post_bp.route('/update-post/<id>', methods=['GET', 'POST'])
 @login_required
 def update_post(id):
     post = Post.query.get_or_404(id)
     form = PostForm()
+    message = "You do not have permission to edit the blog."
+    user_check_result = own_user_check(post, message)
+    if user_check_result:
+        return user_check_result
     if form.validate_on_submit():
         post.title = form.title.data
         post.content = form.content.data
@@ -77,6 +87,10 @@ def update_post(id):
 @login_required
 def delete_post(id):
     post = Post.query.get_or_404(id)
+    message = "You do not have permission to delete the blog."
+    user_check_result = own_user_check(post, message)
+    if user_check_result:
+        return user_check_result
     try:
         db.session.delete(post)
         db.session.commit()
