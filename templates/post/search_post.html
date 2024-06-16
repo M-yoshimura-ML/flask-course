@@ -7,9 +7,8 @@
         {% for post in posts %}
             <div class="shadow p-3 mb-5 bg-body-tertiary rounded">
                 <h2>{{ post.title }}</h2>
-                <small>Created at: {{ post.created_at }}</small>
-                <small>Updated at: {{ post.updated_at }}</small>
-                <div>{{ post.content|safe }}</div>
+                <small>Created at: {{ post.created_at }}</small><br>
+                <small>Updated at: {{ post.updated_at }}</small><br>
                 <a href="{{ url_for('post.view_post', slug=post.slug) }}" class="btn btn-outline-secondary btn-sm">
                     View Post</a>
             </div>
