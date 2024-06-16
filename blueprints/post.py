@@ -2,6 +2,7 @@ import os
 
 from flask import Blueprint, render_template, flash, abort, redirect, url_for, request, jsonify
 from flask_login import login_required, current_user
+from google.cloud import storage
 from sqlalchemy import desc
 from werkzeug.utils import secure_filename
 
@@ -106,9 +107,15 @@ def upload():
     f = request.files.get('upload')
     if f:
         filename = secure_filename(f.filename)
-        filepath = os.path.join('static/images/uploads/' + filename)
-        f.save(filepath)
-        url = url_for('static', filename='images/uploads/' + filename)
+        client = storage.Client()
+        bucket = client.get_bucket(os.environ.get('BUCKET_NAME'))
+        blob = bucket.blob('images/uploads/' + filename)
+        blob.upload_from_file(f, content_type=f.content_type)
+        blob.make_public()
+        url = blob.public_url
+        # filepath = os.path.join('static/images/uploads/' + filename)
+        # f.save(filepath)
+        # url = url_for('static', filename='images/uploads/' + filename)
         return jsonify({"uploaded": 1, "filename": filename, "url": url})
     return jsonify({"uploaded": 0, "error": {"message": "upload failed"}})
 

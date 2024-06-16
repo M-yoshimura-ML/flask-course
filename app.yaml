@@ -6,3 +6,6 @@ env_variables:
   PORT: '8080'
   SECRET_KEY: 'NlPVhFd5Knuf73qunhQmZIiGaWYewBvr'
   DATABASE_URI: 'mysql+pymysql://CLOUD_SQL_USERNAME:CLOUD_SQL_PASSWORD@/CLOUD_SQL_DATABASE_NAME?unix_socket=/cloudsql/CLOUD_SQL_CONNECTION_NAME'
+  GOOGLE_APPLICATION_CREDENTIALS: 'credentials/service_account_key.json'
+  BUCKET_NAME: 'flask-blog-demo-bucket'
+
