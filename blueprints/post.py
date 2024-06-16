@@ -1,3 +1,4 @@
+import datetime
 import os
 
 from flask import Blueprint, render_template, flash, abort, redirect, url_for, request, jsonify
@@ -70,6 +71,7 @@ def update_post(id):
         post.title = form.title.data
         post.content = form.content.data
         post.slug = form.slug.data
+        post.updated_at = datetime.datetime.now()
         try:
             db.session.add(post)
             db.session.commit()
