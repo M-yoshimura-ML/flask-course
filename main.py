@@ -14,7 +14,7 @@ def create_app():
     app.config['SECRET_KEY'] = "YOUR_SECRET_KEY"
     # app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///flask_blog.db"
     # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://username:password@localhost:port/db_name'
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://admin:password!123@localhost:3306/flask_blog'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://admin:password!admin@localhost:3360/flask_blog'
     csrf.init_app(app)
     db.init_app(app)
     migrate.init_app(app, db)
